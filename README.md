@@ -2,6 +2,7 @@
 FIJI and Qupath pipeline to quantify speckle size and number. 
 
 ## (Optional) Speckle Enhancement (FIJI)
+- 202404_Speckle_Analysis\scripts\1_fiji\MecP2_analysis_script_preprocessingforQupath.ijm
 ## 1. Qupath
 ### ROI drawing
 ### Particle detection using Stardist
