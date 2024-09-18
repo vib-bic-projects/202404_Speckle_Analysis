@@ -1,5 +1,5 @@
 // @ File(label="File directory", style="directory") dir
-
+// @ String (label="GPU. The order is PC Nicolas, NAS, PC2", choices={"[NVIDIA GeForce RTX 3070]", "[Quadro RTX 8000]", "[Quadro K2200]"}, style="listBox") gpu
 // @String (visibility=MESSAGE, value="Parameters for blob segmentation", required=false) msg1
 // @Integer (label="Channel containing the blob marker", min=1, max=4, value=4) blob_channel
 
@@ -107,9 +107,11 @@ for (files = 0; files < fileList.length; files++) {
 	*/
 	
 	//Crop the ROI
+	/*
 	selectWindow(name);
 	roiManager("Select", files);
 	run("Clear Outside", "stack");
+	*/
 
 		
 	//waitForUser;
@@ -156,7 +158,7 @@ function enhance_speckels(blob_image) {
 	rename("blob_image");
 	
 	run("Subtract Background...", "rolling=10");
-	run("CLIJ2 Macro Extensions", "cl_device=[NVIDIA GeForce RTX 3070]");
+	run("CLIJ2 Macro Extensions", "cl_device=" + gpu);
 	
 	// difference of gaussian
 	image_1 = "blob_image";
