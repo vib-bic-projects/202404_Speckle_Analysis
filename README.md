@@ -1,11 +1,13 @@
 # 202404_Speckle_Analysis
 FIJI and Qupath pipeline to quantify speckle size and number. 
 
-## 1. Imaging
-## 2. Speckle Enhancement (FIJI)
-## 3. Import into Qupath
-## 4. In Qupath detect the speckles using Stardist
-## (Optional) Train an object classifier to filter false detections
-## 5. Export measurements Qupath.
-## 6. Run python script for analyzing the speckles
-## 7. Graph
+## (Optional) Speckle Enhancement (FIJI)
+## 1. Qupath
+### ROI drawing
+### Particle detection using Stardist
+### (Optional) Train an object classifier to filter out false detections
+### Run Groovy Script and export measurements (Qupath)
+- 202404_Speckle_Analysis\scripts\2_qupath\Speckle_analysis.groovy
+## 2. Run python script for analyzing the speckles (Google Collab)
+- 202404_Speckle_Analysis\scripts\3_python\Laura_speckle_analysis_script.ipynb
+## 3. Visualize Data (Prism)
