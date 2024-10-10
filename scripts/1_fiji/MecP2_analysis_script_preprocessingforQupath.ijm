@@ -1,5 +1,5 @@
 // @ File(label="File directory", style="directory") dir
-// @ String (label="GPU. The order is PC Nicolas, NAS, PC2", choices={"[NVIDIA GeForce RTX 3070]", "[Quadro RTX 8000]", "[Quadro K2200]"}, style="listBox") gpu
+// @ String (label="What working station are you using?", choices={"PC7_Paris", "PC_Nicolas", "NAS_Tokyo", "PC2_Mexico"}, style="listBox") pc
 // @String (visibility=MESSAGE, value="Parameters for blob segmentation", required=false) msg1
 // @Integer (label="Channel containing the blob marker", min=1, max=4, value=4) blob_channel
 
@@ -53,6 +53,15 @@ for (files = 0; files < fileList.length; files++) {
 	}	
 }
 */
+
+//GPU parameters
+computerarray = newArray("PC7_Paris", "PC_Nicolas", "NAS_Tokyo", "PC2_Mexico");
+gpuparameters = newArray("[NVIDIA GeForce RTX 3090]", "[NVIDIA GeForce RTX 3070]", "[Quadro RTX 8000]", "[Quadro K2200]");
+gpu = "";
+for (i = 0; i < computerarray.length; i++) {
+	if (computerarray[i] == pc) {
+		gpu = gpuparameters[i];
+}
 
 for (files = 0; files < fileList.length; files++) {
 //for (files = 80; files < 81; files++) {

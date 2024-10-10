@@ -1,45 +1,26 @@
-setChannelNames(
-     'DAPI',
-     'LEDGF',
-     'MecP2',
-     'MecP2_enhanced'
-)
-
-//Set pixel width and height
-setPixelSizeMicrons(0.1725000, 0.1725000)
-
-createAnnotationsFromPixelClassifier("ROI", 0.0, 5000.0, "DELETE_EXISTING", "SELECT_NEW");
-
-selectAnnotations();
-
-/**
- * This script provides a general template for cell detection using StarDist in QuPath.
- * This example assumes you have fluorescence image, which has a channel called 'DAPI' 
- * showing nuclei.
- * 
- * If you use this in published work, please remember to cite *both*:
- *  - the original StarDist paper (https://doi.org/10.48550/arXiv.1806.03535)
- *  - the original QuPath paper (https://doi.org/10.1038/s41598-017-17204-5)
- *  
- * There are lots of options to customize the detection - this script shows some 
- * of the main ones. Check out other scripts and the QuPath docs for more info.
- */
-
+import javax.swing.JOptionPane
 import qupath.ext.stardist.StarDist2D
 import qupath.lib.scripting.QP
 
+// Get user input
+param1 = "MecP2_enhanced" //What channel name should be used for speckle segmentation? (e.g. MecP2_enhanced)
+param2 = "Yes" //Was an object classifier trained for the speckles? Answer with Yes or No)
+param3 = "Speckle_classifier" //What is the name of the classifier?(e.g. Speckle_classifier)
+
+// Get the current project
+def project = getProject()
 
 // IMPORTANT! Replace this with the path to your StarDist model
 // that takes a single channel as input (e.g. dsb2018_heavy_augment.pb)
 // You can find some at https://github.com/qupath/models
 // (Check credit & reuse info before downloading)
-def modelPath = "C:/Users/u0119446/QuPath/v0.5/Stardist/dsb2018_heavy_augment.pb"
+def modelPath = "C:/Users/u0119446/QuPath/v0.5/Stardist/dsb2018_heavy_augment.pb" //Change the path to the proper one.
 
 // Customize how the StarDist detection should be applied
 // Here some reasonable default options are specified
 def stardist = StarDist2D
     .builder(modelPath)
-    .channels('MecP2_enhanced')            // Extract channel called 'DAPI'
+    .channels(param1)            // Extract channel called 'DAPI'
     .normalizePercentiles(1, 99) // Percentile normalization
     .threshold(0.6)              // Probability (detection) threshold
     .pixelSize(0.15)              // Resolution for detection
@@ -59,6 +40,23 @@ if (pathObjects.isEmpty()) {
     return
 }
 
+//Write the right channel names in the order they are in the image
+setChannelNames(
+     'DAPI',
+     'LEDGF',
+     'MecP2',
+     'MecP2_enhanced'
+)
+
+//Set pixel width and height
+setPixelSizeMicrons(0.1725000, 0.1725000)
+
+selectAnnotations();
+
 stardist.detectObjects(imageData, pathObjects)
 stardist.close() // This can help clean up & regain memory
-runObjectClassifier("Speckle_classifier");
+
+if (param2 == "Yes") {
+    runObjectClassifier(param3);
+}
+
