@@ -161,28 +161,30 @@ function getFilesList(dir, fileExtension) {
   return list;
 }
 
-//Function to segment blobs. Only needs image to be used as input
 function enhance_speckels(blob_image) { 
 	selectWindow(blob_image);
 	rename("blob_image");
 	
 	run("Subtract Background...", "rolling=10");
-	run("CLIJ2 Macro Extensions", "cl_device=" + gpu);
+	
+	// Init GPU
+	run("CLIJ2 Macro Extensions", "cl_device=[NVIDIA GeForce RTX 3090]");
+	Ext.CLIJ2_clear();
 	
 	// difference of gaussian
 	image_1 = "blob_image";
 	Ext.CLIJ2_pushCurrentZStack(image_1);
-	
-	// Copy
-	Ext.CLIJ2_copy(image_1, image_2);
-	Ext.CLIJ2_release(image_1);
-	
-	Ext.CLIJ2_pull(image_2);
 	
 	// Difference Of Gaussian2D
 	sigma1x = 2;
 	sigma1y = 2;
 	sigma2x = 10;
 	sigma2y = 10;
-	Ext.CLIJ2_differenceOfGaussian2D(image_2, image_3, sigma1x, sigma1y, sigma2x, sigma2y);
+	Ext.CLIJ2_differenceOfGaussian2D(image_1, image_2, sigma1x, sigma1y, sigma2x, sigma2y);
+	
+	// pull dif of gaussian image
+	Ext.CLIJ2_pull(image_2);
+	
+	// Cleanup by the end
+	Ext.CLIJ2_clear();
 }
